@@ -11,10 +11,13 @@ static int ngayHopLe(int d, int m, int y) {
 }
 
 void datPhong() {
-    int ma = nhapSoNguyen("Nhap ma phong muon dat: ");
-    Phong *p = timPhong(ma);
+    int ma = nhapSoNguyen("Nhap ma phong muon dat (nhap 0 de quay lai): ");
+    Phong *p;
     KhachHang *k;
     int cachTinh;
+
+    if (ma == 0) return;
+    p = timPhong(ma);
 
     if (p == NULL) {
         printf("Ma phong khong ton tai!\n");
@@ -26,8 +29,11 @@ void datPhong() {
     }
 
     k = &p->khach;
-    nhapChuoi("Ten khach hang: ", k->ten, sizeof(k->ten));
-    nhapChuoi("So dien thoai: ", k->sdt, sizeof(k->sdt));
+    if (!nhapChuoi("Ten khach hang (nhap 0 de quay lai): ", k->ten, sizeof(k->ten)) ||
+        !nhapChuoi("So dien thoai (nhap 0 de quay lai): ", k->sdt, sizeof(k->sdt))) {
+        xoaKhach(p);
+        return;
+    }
 
     do {
         k->ngay = nhapSoNguyen("Ngay nhan phong (ngay): ");
@@ -50,7 +56,7 @@ void datPhong() {
 
     k->phuPhi = 0;
     p->trangThai = DA_DAT;
-    printf("Dat phong %d thanh cong!\n", ma);
+    printf("Dat phong %d thanh cong! Vui long den quay le tan de nhan phong.\n", ma);
 }
 
 void checkIn() {
@@ -140,6 +146,7 @@ void checkOut() {
     } while (soLuongThuc <= 0);
 
     inHoaDon(p, soLuongThuc);
+    ghiDoanhThu(p, tinhTienPhong(p, soLuongThuc));
 
     p->trangThai = TRONG;
     xoaKhach(p);
