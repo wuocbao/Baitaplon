@@ -2,14 +2,6 @@
 
 /* ===================== DOC / GHI FILE (DANG BANG) ===================== */
 
-static void catKhoang(char *s) {
-    int len = (int)strlen(s), i = 0;
-    while (len > 0 && (s[len - 1] == ' ' || s[len - 1] == '\r' || s[len - 1] == '\n'))
-        s[--len] = '\0';
-    while (s[i] == ' ') i++;
-    if (i > 0) memmove(s, s + i, strlen(s + i) + 1);
-}
-
 static int tachTruong(char *dong, char *truong[], int toiDa) {
     int n = 0;
     char *p = dong;
